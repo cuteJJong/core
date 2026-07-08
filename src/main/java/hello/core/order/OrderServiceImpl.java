@@ -1,8 +1,10 @@
 package hello.core.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
@@ -12,7 +14,7 @@ import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor	//생성자를 만들어줌
+//@RequiredArgsConstructor	//생성자를 만들어줌
 public class OrderServiceImpl implements OrderService {
 
 	//생성자를 통한 주입은 fianl 사용가능
@@ -65,12 +67,13 @@ public class OrderServiceImpl implements OrderService {
 	// 생성자 주입
 	// 생성자가 1개이면 @Autowired 생략 가능
 	//@Autowired
-/*	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+	//public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+	public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
 		System.out.println("memberRepository = " + memberRepository);
 		System.out.println("discountPolicy = " + discountPolicy);
 		this.memberRepository = memberRepository;
 		this.discountPolicy = discountPolicy;
-	}*/
+	}
 
 	@Override
 	public Order createOrder(Long memberId, String itemName, int itemPrice) {
